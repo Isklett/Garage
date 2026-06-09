@@ -1,0 +1,207 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "I:\\Lexicon\\C# Projects\\Garage\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|i:\\lexicon\\c# projects\\garage\\garage\\garage\\garage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|solutionrelative:garage\\garage\\garage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|i:\\lexicon\\c# projects\\garage\\garage\\vehicles\\vehicle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|solutionrelative:garage\\vehicles\\vehicle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|i:\\lexicon\\c# projects\\garage\\garage\\interfaces\\iparkable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|solutionrelative:garage\\interfaces\\iparkable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|i:\\lexicon\\c# projects\\garage\\garage\\valuetypes\\dimensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|solutionrelative:garage\\valuetypes\\dimensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|i:\\lexicon\\c# projects\\garage\\garage\\garage\\parkingspot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|solutionrelative:garage\\garage\\parkingspot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|i:\\lexicon\\c# projects\\garage\\garage\\garage\\floor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|solutionrelative:garage\\garage\\floor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|i:\\lexicon\\c# projects\\garage\\garage\\vehicles\\vehicletypes\\cartypes\\sedan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|solutionrelative:garage\\vehicles\\vehicletypes\\cartypes\\sedan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|i:\\lexicon\\c# projects\\garage\\garage\\vehicles\\vehicletypes\\cartypes\\suv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|solutionrelative:garage\\vehicles\\vehicletypes\\cartypes\\suv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|i:\\lexicon\\c# projects\\garage\\garage\\vehicles\\vehicletypes\\motorcycle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|solutionrelative:garage\\vehicles\\vehicletypes\\motorcycle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|i:\\lexicon\\c# projects\\garage\\garage\\vehicles\\vehicletypes\\car.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|solutionrelative:garage\\vehicles\\vehicletypes\\car.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|i:\\lexicon\\c# projects\\garage\\garage\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8728361A-F6EB-4B22-B7EB-1F8ACDE780E7}|Garage\\Garage.csproj|solutionrelative:garage\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Dimensions.cs",
+              "DocumentMoniker": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\ValueTypes\\Dimensions.cs",
+              "RelativeDocumentMoniker": "Garage\\ValueTypes\\Dimensions.cs",
+              "ToolTip": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\ValueTypes\\Dimensions.cs",
+              "RelativeToolTip": "Garage\\ValueTypes\\Dimensions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T13:53:10.349Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IParkable.cs",
+              "DocumentMoniker": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Interfaces\\IParkable.cs",
+              "RelativeDocumentMoniker": "Garage\\Interfaces\\IParkable.cs",
+              "ToolTip": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Interfaces\\IParkable.cs",
+              "RelativeToolTip": "Garage\\Interfaces\\IParkable.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T13:39:24.688Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Vehicle.cs",
+              "DocumentMoniker": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Vehicles\\Vehicle.cs",
+              "RelativeDocumentMoniker": "Garage\\Vehicles\\Vehicle.cs",
+              "ToolTip": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Vehicles\\Vehicle.cs",
+              "RelativeToolTip": "Garage\\Vehicles\\Vehicle.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAA5wBkAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T09:56:31.961Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Garage.cs",
+              "DocumentMoniker": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Garage\\Garage.cs",
+              "RelativeDocumentMoniker": "Garage\\Garage\\Garage.cs",
+              "ToolTip": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Garage\\Garage.cs",
+              "RelativeToolTip": "Garage\\Garage\\Garage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T09:57:07.678Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Floor.cs",
+              "DocumentMoniker": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Garage\\Floor.cs",
+              "RelativeDocumentMoniker": "Garage\\Garage\\Floor.cs",
+              "ToolTip": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Garage\\Floor.cs",
+              "RelativeToolTip": "Garage\\Garage\\Floor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T13:21:06.74Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ParkingSpot.cs",
+              "DocumentMoniker": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Garage\\ParkingSpot.cs",
+              "RelativeDocumentMoniker": "Garage\\Garage\\ParkingSpot.cs",
+              "ToolTip": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Garage\\ParkingSpot.cs",
+              "RelativeToolTip": "Garage\\Garage\\ParkingSpot.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T09:57:24.549Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Sedan.cs",
+              "DocumentMoniker": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Vehicles\\VehicleTypes\\CarTypes\\Sedan.cs",
+              "RelativeDocumentMoniker": "Garage\\Vehicles\\VehicleTypes\\CarTypes\\Sedan.cs",
+              "ToolTip": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Vehicles\\VehicleTypes\\CarTypes\\Sedan.cs",
+              "RelativeToolTip": "Garage\\Vehicles\\VehicleTypes\\CarTypes\\Sedan.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T09:58:04.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "SUV.cs",
+              "DocumentMoniker": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Vehicles\\VehicleTypes\\CarTypes\\SUV.cs",
+              "RelativeDocumentMoniker": "Garage\\Vehicles\\VehicleTypes\\CarTypes\\SUV.cs",
+              "ToolTip": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Vehicles\\VehicleTypes\\CarTypes\\SUV.cs",
+              "RelativeToolTip": "Garage\\Vehicles\\VehicleTypes\\CarTypes\\SUV.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T09:57:59.18Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Motorcycle.cs",
+              "DocumentMoniker": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Vehicles\\VehicleTypes\\Motorcycle.cs",
+              "RelativeDocumentMoniker": "Garage\\Vehicles\\VehicleTypes\\Motorcycle.cs",
+              "ToolTip": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Vehicles\\VehicleTypes\\Motorcycle.cs",
+              "RelativeToolTip": "Garage\\Vehicles\\VehicleTypes\\Motorcycle.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T09:57:41.039Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Car.cs",
+              "DocumentMoniker": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Vehicles\\VehicleTypes\\Car.cs",
+              "RelativeDocumentMoniker": "Garage\\Vehicles\\VehicleTypes\\Car.cs",
+              "ToolTip": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Vehicles\\VehicleTypes\\Car.cs",
+              "RelativeToolTip": "Garage\\Vehicles\\VehicleTypes\\Car.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T09:57:34.821Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Program.cs",
+              "DocumentMoniker": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Program.cs",
+              "RelativeDocumentMoniker": "Garage\\Program.cs",
+              "ToolTip": "I:\\Lexicon\\C# Projects\\Garage\\Garage\\Program.cs",
+              "RelativeToolTip": "Garage\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T07:48:07.907Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
