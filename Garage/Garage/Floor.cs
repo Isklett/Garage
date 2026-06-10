@@ -1,28 +1,29 @@
 ﻿
 
+using Garage.Vehicles;
+
 namespace Garage.Garage
 {
     internal class Floor
     {
         public int Level { get; }
 
-        private readonly List<ParkingSpot> _spots = new();
-        public IReadOnlyList<ParkingSpot> Spots => _spots;
+        private readonly ParkingSpot[] _spots;
 
-        public Floor(int level, List<ParkingSpot>? initial = null)
+        public Floor(int level, int nrOfSpots)
         {
             Level = level;
-            if (initial != null) _spots.AddRange(initial);
+            _spots = new ParkingSpot[nrOfSpots];
         }
 
-        public void AddSpot(ParkingSpot spot) => _spots.Add(spot);
-        public bool RemoveSpot(int spotId)
+        public Vehicle? GetVehicleAtSpot(int spotNumber)
         {
-            var idx = _spots.FindIndex(s => s.SpotNumber == spotId);
-            if (idx >= 0) { _spots.RemoveAt(idx); return true; }
-            return false;
+            if (spotNumber < 0 || spotNumber >= _spots.Length)
+            {
+                Console.WriteLine($"{spotNumber} is an invalid parking spot number.");
+                return null;
+            }
+            return _spots[spotNumber]?.ParkedVehicle;
         }
-
-
     }
 }

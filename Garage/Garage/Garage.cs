@@ -1,13 +1,25 @@
 ﻿
+using System.Collections;
+
 namespace Garage.Garage
 {
-    internal class Garage
+    internal class Garage<T> : IEnumerable<T> where T : Floor
     {
-        public Dictionary<int, ParkingSpot[]> Floors { get; init; }
+        private T[] _floors;
 
-        public Garage(Dictionary<int, ParkingSpot[]> floors)
+        public Garage(int nrOfFloors)
         {
-            Floors = floors;
+            _floors = new T[nrOfFloors];
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return ((IEnumerable<T>)_floors).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

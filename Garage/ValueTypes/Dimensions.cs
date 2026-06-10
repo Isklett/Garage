@@ -8,11 +8,13 @@ namespace Garage.ValueTypes
     {
         public double Length { get; init; }
         public double Width { get; init; }
+        public double Height { get; init; }
 
-        public Dimensions(double length, double width)
+        public Dimensions(double length, double width, double height)
         {
             Length = length;
             Width = width;
+            Height = height;
         }
     }
 }
