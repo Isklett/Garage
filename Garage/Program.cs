@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿
+using Garage.Garage;
+using Garage.UI;
 
 namespace Garage
 {
@@ -6,7 +8,11 @@ namespace Garage
     {
         static void Main(string[] args)
         {
-            
+            var garageHandler = new GarageHandler(new ConsoleUI());
+
+            garageHandler.Run();
+
+            Console.WriteLine("Game Over");
         }
     }
 }

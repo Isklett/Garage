@@ -1,10 +1,11 @@
 ﻿
 
 using Garage.Vehicles;
+using System.Collections;
 
 namespace Garage.Garage
 {
-    internal class Floor
+    internal class Floor<T> : IEnumerable<T> where T : ParkingSpot
     {
         public int Level { get; }
 
@@ -24,6 +25,16 @@ namespace Garage.Garage
                 return null;
             }
             return _spots[spotNumber]?.ParkedVehicle;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Garage.ValueTypes;
+﻿using Garage.Interfaces;
+using Garage.ValueTypes;
 using Garage.Vehicles;
 
 namespace Garage.Garage
@@ -24,19 +25,41 @@ namespace Garage.Garage
 
         public bool ParkVehicle(Vehicle vehicle)
         {
-            if (ParkedVehicle != null)
+            if(vehicle is IParkable)
             {
-                Console.WriteLine($"Parking spot {SpotNumber} is already occupied by {ParkedVehicle.Make} {ParkedVehicle.Model}.");
-                return false;
+                if (ParkedVehicle != null)
+                {
+                    Console.WriteLine($"Parking spot {SpotNumber} is already occupied by {ParkedVehicle.Make} {ParkedVehicle.Model}.");
+                    return false;
+                }
+                else if (vehicle.Dimensions.Length > ParkingSize.Length || vehicle.Dimensions.Width > ParkingSize.Width || vehicle.Dimensions.Height > ParkingSize.Height)
+                {
+                    Console.WriteLine($"Vehicle {vehicle.Make} {vehicle.Model} does not fit in parking spot {SpotNumber}.");
+                    return false;
+                }
             }
-            else if (vehicle.Dimensions.Length > ParkingSize.Length || vehicle.Dimensions.Width > ParkingSize.Width || vehicle.Dimensions.Height > ParkingSize.Height)
+            else
             {
-                Console.WriteLine($"Vehicle {vehicle.Make} {vehicle.Model} does not fit in parking spot {SpotNumber}.");
-                return false;
+                Console.WriteLine("Vehicle does not implement IParkable interface and cannot be parked.");
             }
 
             ParkedVehicle = vehicle;
             return true;
+        }
+
+        public bool RemoveVehicle()
+        {
+            if (ParkedVehicle == null)
+            {
+                Console.WriteLine($"Parking spot {SpotNumber} is already empty.");
+                return false;
+            }
+            else
+            {
+                Console.WriteLine($"Vehicle {ParkedVehicle.Make} {ParkedVehicle.Model} removed from spot {SpotNumber}.");
+                ParkedVehicle = null;
+                return true;
+            }
         }
     }
 }
