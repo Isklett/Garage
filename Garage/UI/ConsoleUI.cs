@@ -124,11 +124,12 @@ namespace Garage.UI
                 ClearScreen(currentRow);
                 Console.WriteLine(prompt);
 
-                int indent = (selected / maxRows) % maxColumns;
+                int page = selected / (maxRows * maxColumns);
+                int pageStart = page * maxRows * maxColumns;
 
-                for (int i = indent * maxColumns * maxRows; i < Math.Min(names.Length, indent * maxColumns * maxRows + (maxColumns * maxRows)); i++)
+                for (int i = pageStart; i < Math.Min(names.Length, pageStart + maxRows * maxColumns); i++)
                 {
-                    int column = Math.Min(i / maxRows, maxColumns);
+                    int column = (i / maxRows) % maxColumns;
                     int row = i % maxRows;
 
                     Console.CursorLeft = largestName * column;
@@ -179,7 +180,6 @@ namespace Garage.UI
                 {
                     Console.WriteLine();
                     Console.CursorVisible = true;
-                    Console.CursorTop = maxRows + currentRow + 1;
                     return selected;
                 }
                 else
@@ -192,7 +192,6 @@ namespace Garage.UI
                         {
                             Console.WriteLine();
                             Console.CursorVisible = true;
-                            Console.CursorTop = maxRows + currentRow + 1;
                             return num;
                         }
                     }
