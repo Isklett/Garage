@@ -12,7 +12,7 @@ namespace Garage
 
             garageHandler.Run();
 
-            Console.WriteLine("Game Over");
+            Console.WriteLine("See you next time!");
         }
     }
 }

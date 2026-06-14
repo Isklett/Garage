@@ -5,16 +5,16 @@ using System.Collections;
 
 namespace Garage.Garage
 {
-    internal class Floor<T> : IEnumerable<T> where T : ParkingSpot
+    internal class Floor<T> : IEnumerable<T> where T : ParkingSpot<Vehicle>
     {
         public int Level { get; }
 
-        private readonly ParkingSpot[] _spots;
+        private readonly ParkingSpot<Vehicle>[] _spots;
 
         public Floor(int level, int nrOfSpots)
         {
             Level = level;
-            _spots = new ParkingSpot[nrOfSpots];
+            _spots = new ParkingSpot<Vehicle>[nrOfSpots];
         }
 
         public Vehicle? GetVehicleAtSpot(int spotNumber)
