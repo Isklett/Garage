@@ -10,8 +10,8 @@ namespace Garage.ValueTypes
             string Make,
             string Model,
             string Color,
-            int NrOfWheels,
-            FuelType FuelType
+            string NrOfWheels,
+            string FuelType
             );
     }
 }

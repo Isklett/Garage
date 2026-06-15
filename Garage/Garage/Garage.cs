@@ -2,6 +2,7 @@
 using Garage.ValueTypes;
 using Garage.Vehicles;
 using System.Collections;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using static Garage.ValueTypes.Enumerators.VehicleEnums;
 
@@ -82,17 +83,20 @@ namespace Garage.Garage
             return false;
         }
 
-        public IEnumerable<T> SearchVehicles(string? registrationNumber, string? make, string? model, string? color, int? nrOfWheels, FuelType? fuelType)
+        public IEnumerable<T> SearchVehicles(string? registrationNumber, string? make, string? model, string? color, string? nrOfWheels, string? fuelType)
         {
-            return _spots.Where
+            int.TryParse(nrOfWheels, out int wheels);
+            int.TryParse(fuelType, out int fuel);
+            var list = _spots.Where
                     (spot => spot.IsOccupied && spot.ParkedVehicle != null &&
                     (string.IsNullOrWhiteSpace(registrationNumber) || spot.ParkedVehicle.vehicleData.RegNr == registrationNumber) &&
                     (string.IsNullOrWhiteSpace(make) || spot.ParkedVehicle.vehicleData.Make == make) &&
                     (string.IsNullOrWhiteSpace(model) || spot.ParkedVehicle.vehicleData.Model == model) &&
                     (string.IsNullOrWhiteSpace(color) || spot.ParkedVehicle.vehicleData.Color == color) &&
-                    (nrOfWheels == null || spot.ParkedVehicle.vehicleData.NrOfWheels == nrOfWheels) &&
-                    (fuelType == null || spot.ParkedVehicle.vehicleData.FuelType == fuelType)
+                    (string.IsNullOrWhiteSpace(nrOfWheels) || spot.ParkedVehicle.vehicleData.NrOfWheels == wheels) &&
+                    (string.IsNullOrWhiteSpace(fuelType) || spot.ParkedVehicle.vehicleData.FuelType == (FuelType)fuel)
                     );
+            return list;
         }
 
         public bool ParkVehicle(T parkingSpot, Vehicle vehicle)

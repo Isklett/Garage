@@ -1,6 +1,5 @@
 ﻿using Garage.Interfaces;
 using Garage.ValueTypes;
-using static Garage.ValueTypes.Enumerators.VehicleEnums;
 
 namespace Garage.Vehicles
 {

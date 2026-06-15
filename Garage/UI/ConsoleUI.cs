@@ -1,8 +1,6 @@
 ﻿using Garage.Interfaces;
 using Garage.ValueTypes;
 using System.ComponentModel;
-using System.Runtime.InteropServices.Java;
-using static Garage.ValueTypes.Enumerators.VehicleEnums;
 
 namespace Garage.UI
 {
@@ -85,11 +83,11 @@ namespace Garage.UI
 
         public double GetDoubleInput(string prompt)
         {
-            while(true)
+            while (true)
             {
                 Console.Write(prompt);
                 string input = Console.ReadLine() ?? "";
-                if(double.TryParse(input,out double result))
+                if (double.TryParse(input, out double result))
                 {
                     return result;
                 }
@@ -112,88 +110,131 @@ namespace Garage.UI
 
             int selected = 0;
             ConsoleKey keyInfo;
-            int currentRow = Console.CursorTop;
-            int largestName = names.Max(x => x.Length) + 6;
-            int maxColumns = 6;
 
+            int basePadding = 6;
+            int maxColumnsLimit = 6;
+
+            int rows = Math.Min(maxRows, choices.Count);
+
+            int consoleWidth, consoleHeight, bufferHeight;
+            try { consoleWidth = Console.WindowWidth; } catch { consoleWidth = names.Max(x => x.Length) + basePadding; }
+            try { consoleHeight = Console.WindowHeight; } catch { consoleHeight = Math.Max(maxRows + 2, 10); }
+            try { bufferHeight = Console.BufferHeight; } catch { bufferHeight = consoleHeight; }
+
+            int startRow = Console.CursorTop;
+            int neededRows = rows + 2;
+            int availableBelow = bufferHeight - startRow;
+            int extraLines = Math.Max(0, neededRows - availableBelow);
+
+            for (int i = 0; i < extraLines; i++)
+                Console.WriteLine();
+
+            int topRow = startRow - extraLines;
+
+            int prevWidth = consoleWidth;
+            int prevHeight = consoleHeight;
+            int prevBufferHeight = bufferHeight;
+            int prevRows = rows;
+
+            bool firstDraw = true;
 
             while (true)
             {
-                Console.CursorTop = currentRow;
                 Console.CursorVisible = false;
-                ClearScreen(currentRow);
-                Console.WriteLine(prompt);
 
-                int page = selected / (maxRows * maxColumns);
-                int pageStart = page * maxRows * maxColumns;
+                try { consoleWidth = Console.WindowWidth; } catch { }
+                try { consoleHeight = Console.WindowHeight; } catch { }
+                try { bufferHeight = Console.BufferHeight; } catch { }
 
-                for (int i = pageStart; i < Math.Min(names.Length, pageStart + maxRows * maxColumns); i++)
+                // Checks if the console window has been resized and recalculates the necessary values.
+                bool resized = consoleWidth != prevWidth || consoleHeight != prevHeight || bufferHeight != prevBufferHeight;
+                if (resized)
                 {
-                    int column = (i / maxRows) % maxColumns;
-                    int row = i % maxRows;
+                    // Clear the old footprint at the old position/size before re-anchoring.
+                    ClearScreen(topRow, prevRows + 1, prevWidth);
 
-                    Console.CursorLeft = largestName * column;
-                    Console.CursorTop = currentRow + row + 1;
+                    // Re-anchor: keep prompt area visible, clamp topRow to current buffer.
+                    int maxTopRow = Math.Max(0, bufferHeight - (rows + 1));
+                    topRow = Math.Min(topRow, maxTopRow);
+                    topRow = Math.Max(0, topRow);
 
-                    if (names.Length < 10)
+                    prevWidth = consoleWidth;
+                    prevHeight = consoleHeight;
+                    prevBufferHeight = bufferHeight;
+                    firstDraw = true; // force full redraw including prompt without "previous size" assumptions.
+                }
+
+                if (!firstDraw)
+                    ClearScreen(topRow, rows + 1, consoleWidth);
+                else
+                    ClearScreen(topRow, rows + 1, Math.Max(prevWidth, consoleWidth));
+                firstDraw = false;
+
+                int largestName = names.Max(x => x.Length) + basePadding;
+                int colWidth = Math.Max(1, largestName);
+                int maxColumns = Math.Max(1, consoleWidth / colWidth);
+                maxColumns = Math.Min(maxColumns, maxColumnsLimit);
+
+                int itemsPerPage = maxRows * maxColumns;
+                int page = selected / Math.Max(1, itemsPerPage);
+                int pageStart = page * itemsPerPage;
+                int pageEnd = Math.Min(names.Length, pageStart + itemsPerPage);
+
+                Console.SetCursorPosition(0, topRow);
+                Console.Write(prompt.PadRight(consoleWidth));
+
+                for (int i = pageStart; i < pageEnd; i++)
+                {
+                    int indexInPage = i - pageStart;
+                    int column = indexInPage / maxRows;
+                    int row = indexInPage % maxRows;
+
+                    int cursorLeft = column * colWidth;
+                    int cursorTop = topRow + 1 + row;
+
+                    string label = names.Length < 10 ? $"{i}: {names[i]}" : names[i];
+                    string cellText = (i == selected ? "> " : "  ") + label;
+                    if (cellText.Length > colWidth - 1)
+                        cellText = cellText.Substring(0, Math.Max(0, colWidth - 2)) + "…";
+
+                    if (cursorTop < 0 || cursorTop >= bufferHeight || cursorLeft >= consoleWidth) continue;
+
+                    Console.SetCursorPosition(cursorLeft, cursorTop);
+                    if (i == selected)
                     {
-                        if (i == selected)
-                        {
-                            var prev = Console.ForegroundColor;
-                            Console.ForegroundColor = ConsoleColor.DarkCyan;
-                            Console.Write("> ");
-                            Console.Write($"{i}: {names[i]}");
-                            Console.ForegroundColor = prev;
-                        }
-                        else
-                        {
-                            Console.Write("  ");
-                            Console.Write($"{i}: {names[i]}");
-                        }
+                        var color = Console.ForegroundColor;
+                        Console.ForegroundColor = ConsoleColor.DarkCyan;
+                        Console.Write(cellText.PadRight(colWidth));
+                        Console.ForegroundColor = color;
                     }
                     else
-                    {
-                        if (i == selected)
-                        {
-                            var prev = Console.ForegroundColor;
-                            Console.ForegroundColor = ConsoleColor.DarkCyan;
-                            Console.Write("> ");
-                            Console.Write($"{names[i]}");
-                            Console.ForegroundColor = prev;
-                        }
-                        else
-                        {
-                            Console.Write("  ");
-                            Console.Write($"{names[i]}");
-                        }
-                    }
+                        Console.Write(cellText.PadRight(colWidth));
                 }
+
+                prevRows = rows;
 
                 keyInfo = Console.ReadKey(intercept: true).Key;
 
-                // Navigation between choices. Modulus to enable going between last and first choice.
-                if (keyInfo == ConsoleKey.UpArrow)
-                    selected = (selected - 1 + names.Length) % names.Length;
-                else if (keyInfo == ConsoleKey.DownArrow)
-                    selected = (selected + 1) % names.Length;
+                if (keyInfo == ConsoleKey.UpArrow) selected = (selected - 1 + names.Length) % names.Length;
+                else if (keyInfo == ConsoleKey.DownArrow) selected = (selected + 1) % names.Length;
+                else if (keyInfo == ConsoleKey.LeftArrow) selected = (selected - maxRows + names.Length) % names.Length;
+                else if (keyInfo == ConsoleKey.RightArrow) selected = (selected + maxRows) % names.Length;
                 else if (keyInfo == ConsoleKey.Enter)
                 {
+                    Console.SetCursorPosition(0, Math.Min(topRow + 1 + maxRows, bufferHeight - 1));
                     Console.WriteLine();
                     Console.CursorVisible = true;
                     return selected;
                 }
-                else
+                else if (keyInfo >= ConsoleKey.D0 && keyInfo <= ConsoleKey.D9)
                 {
-                    // Quick numeric selection (0-9)
-                    if (keyInfo >= ConsoleKey.D0 && keyInfo <= ConsoleKey.D9)
+                    int num = keyInfo - ConsoleKey.D0;
+                    if (num >= 0 && num < names.Length)
                     {
-                        int num = keyInfo - ConsoleKey.D0; //Translates key to numeric value.
-                        if (num >= 0 && num < names.Length)
-                        {
-                            Console.WriteLine();
-                            Console.CursorVisible = true;
-                            return num;
-                        }
+                        Console.SetCursorPosition(0, Math.Min(topRow + 1 + maxRows, bufferHeight - 1));
+                        Console.WriteLine();
+                        Console.CursorVisible = true;
+                        return num;
                     }
                 }
             }
@@ -204,59 +245,119 @@ namespace Garage.UI
         {
             string[] prompts = new string[inPrompts.Length + 1];
             for (int i = 0; i < inPrompts.Length; i++)
-            {
                 prompts[i] = inPrompts[i];
-            }
-            prompts[inPrompts.Length - 1] = lastChoice;
+            prompts[inPrompts.Length] = lastChoice;
+
             ConsoleKey keyInfo;
-            int startRow = Console.CursorTop;
             int selected = 0;
-            string[] answers = new string[prompts.Length];
-            foreach (string prompt in prompts)
-            {
-                Console.WriteLine(prompt);
-            }
+            string[] answers = new string[inPrompts.Length];
+            for (int i = 0; i < answers.Length; i++)
+                answers[i] = "";
+
+            int consoleWidth;
+            try { consoleWidth = Console.WindowWidth; } catch { consoleWidth = 120; }
+
+            int topRow = Console.CursorTop;
+            int bufferHeight;
+            try { bufferHeight = Console.BufferHeight; } catch { bufferHeight = topRow + prompts.Length + 1; }
+
+            // Reserve space for all lines
+            int needed = prompts.Length;
+            int availableBelow = bufferHeight - topRow;
+            int extraLines = Math.Max(0, needed - availableBelow);
+            for (int i = 0; i < extraLines; i++)
+                Console.WriteLine();
+            topRow -= extraLines;
+
+            bool editing = false;
+
             while (true)
             {
+                Console.CursorVisible = editing;
+
                 for (int i = 0; i < prompts.Length; i++)
                 {
+                    int row = topRow + i;
+                    if (row < 0 || row >= bufferHeight) continue;
+
+                    try { Console.SetCursorPosition(0, row); } catch { continue; }
+
+                    string blank = new string(' ', Math.Max(1, consoleWidth));
+                    Console.Write(blank);
+                    Console.SetCursorPosition(0, row);
+
+                    bool isLast = i == prompts.Length - 1;
+                    string label = isLast ? prompts[i] : $"{prompts[i]}: {answers[i]}";
+
                     if (i == selected)
                     {
                         var prev = Console.ForegroundColor;
-                        Console.ForegroundColor = ConsoleColor.DarkCyan;
-                        Console.Write("> ");
-                        Console.WriteLine($"{prompts[i]}");
+                        Console.ForegroundColor = editing ? ConsoleColor.Cyan : ConsoleColor.DarkCyan;
+                        Console.Write("> " + label);
                         Console.ForegroundColor = prev;
                     }
                     else
                     {
-                        Console.Write("  ");
-                        Console.WriteLine($"{prompts[i]}");
+                        Console.Write("  " + label);
                     }
                 }
-                keyInfo = Console.ReadKey(intercept: true).Key;
 
-                // Navigation between choices. Modulus to enable going between last and first choice.
-                if (keyInfo == ConsoleKey.UpArrow)
-                    selected = (selected - 1 + prompts.Length) % prompts.Length;
-                else if (keyInfo == ConsoleKey.DownArrow)
-                    selected = (selected + 1) % prompts.Length;
-                else if (keyInfo == ConsoleKey.Enter)
+                if (editing)
                 {
-                    if(selected == prompts.Length - 1)
+                    // Position cursor right after the current answer for typing
+                    string label = $"{prompts[selected]}: ";
+                    int col = 2 + label.Length + answers[selected].Length;
+                    try { Console.SetCursorPosition(Math.Min(col, consoleWidth - 1), topRow + selected); } catch { }
+                }
+
+                ConsoleKeyInfo cki = Console.ReadKey(intercept: true);
+                keyInfo = cki.Key;
+
+                if (!editing)
+                {
+                    if (keyInfo == ConsoleKey.UpArrow)
+                        selected = (selected - 1 + prompts.Length) % prompts.Length;
+                    else if (keyInfo == ConsoleKey.DownArrow)
+                        selected = (selected + 1) % prompts.Length;
+                    else if (keyInfo == ConsoleKey.Enter)
                     {
-                        return new SearchParameters.VehicleSearch(answers[0], answers[1], answers[2], answers[3], int.Parse(answers[4]), (FuelType)int.Parse(answers[5]));
+                        if (selected == prompts.Length - 1)
+                        {
+                            Console.CursorVisible = true;
+
+                            Console.SetCursorPosition(0, Math.Min(topRow + 1 + prompts.Length, bufferHeight - 1));
+                            Console.WriteLine();
+
+                            return new SearchParameters.VehicleSearch(
+                                answers[0], answers[1], answers[2], answers[3],
+                                answers[4], answers[5]);
+                        }
+                        else
+                        {
+                            editing = true;
+                            Console.CursorVisible = true;
+                        }
+                    }
+                }
+                else
+                {
+                    if (keyInfo == ConsoleKey.Enter)
+                    {
+                        editing = false;
+                        Console.CursorVisible = false;
+                    }
+                    else if (keyInfo == ConsoleKey.Backspace)
+                    {
+                        if (answers[selected].Length > 0)
+                            answers[selected] = answers[selected].Substring(0, answers[selected].Length - 1);
                     }
                     else
                     {
-                        var prev = Console.ForegroundColor;
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        answers[selected] = Console.ReadLine() ?? "";
-                        Console.ForegroundColor = prev;
+                        char c = cki.KeyChar;
+                        if (!char.IsControl(c))
+                            answers[selected] += c;
                     }
                 }
-
-
             }
         }
 
@@ -282,11 +383,26 @@ namespace Garage.UI
                 Console.Clear();
             }
         }
+        void ClearScreen(int startRow, int rowCount, int width)
+        {
+            string blank = new string(' ', Math.Max(1, width));
+            for (int i = 0; i < rowCount; i++)
+            {
+                int row = startRow + i;
+                if (row < 0 || row >= Console.BufferHeight) continue;
+                try
+                {
+                    Console.SetCursorPosition(0, row);
+                    Console.Write(blank);
+                }
+                catch { }
+            }
+        }
 
         public void Draw(string[]? options, List<string> table)
         {
-            Console.Clear();
-            if(options != null)
+            ClearScreen(0);
+            if (options != null)
             {
                 foreach (string s in options)
                 {
@@ -294,7 +410,7 @@ namespace Garage.UI
                 }
                 Console.WriteLine();
             }
-           
+
             DrawColumns(table, padding: 4);
         }
 

@@ -1,5 +1,4 @@
 ﻿using Garage.Interfaces;
-using Garage.UI;
 using Garage.ValueTypes;
 using Garage.Vehicles;
 using Garage.Vehicles.VehicleTypes;
@@ -30,7 +29,7 @@ namespace Garage.Garage
         private List<string> _textToDraw = new List<string>();
 
         public List<Type> VehicleClasses;
-        private bool _appRunning { get; set; }
+        private bool _appRunning { get; set; } = false;
 
         public GarageHandler(IConsoleUI ui)
         {
@@ -80,6 +79,7 @@ namespace Garage.Garage
 
         internal void Run()
         {
+            PopulateMockGarage();
             Play();
         }
 
@@ -132,7 +132,20 @@ namespace Garage.Garage
         private void StartFindVehicle()
         {
             SearchParameters.VehicleSearch searchParams = _ui.GetMultipleLines(_searchParameters, "Search");
-            _garage.SearchVehicles(searchParams.RegNr, searchParams.Make, searchParams.Model, searchParams.Color, searchParams.NrOfWheels, searchParams.FuelType);
+            IEnumerable<ParkingSpot<Vehicle>> parkingSpots = _garage.SearchVehicles(searchParams.RegNr, searchParams.Make, searchParams.Model, searchParams.Color, searchParams.NrOfWheels, searchParams.FuelType);
+            foreach (ParkingSpot<Vehicle> parkingSpot in parkingSpots)
+            {
+                if(parkingSpot.ParkedVehicle != null)
+                {
+                    string regNr = parkingSpot.ParkedVehicle.vehicleData.RegNr.ToString();
+                    string make = parkingSpot.ParkedVehicle.vehicleData.Make.ToString();
+                    string model = parkingSpot.ParkedVehicle.vehicleData.Model.ToString();
+                    string color = parkingSpot.ParkedVehicle.vehicleData.Color.ToString();
+                    string nrOfWheels = parkingSpot.ParkedVehicle.vehicleData.NrOfWheels.ToString();
+                    string fuelType = parkingSpot.ParkedVehicle.vehicleData.FuelType.ToString();
+                    _textToDraw.Add($"Parking spot {parkingSpot}: {regNr} {make} {model} {color} {nrOfWheels} {fuelType}");
+                }
+            }
         }
 
         private Vehicle? FindVehicle()
@@ -182,7 +195,7 @@ namespace Garage.Garage
             int? vehicleClassChoice = _ui.GetChoiceInput("What type of vehicle would you like to park? Make your desired choice:", VehicleClasses.Select(t => t.Name).ToList(), "No vehicles to choose from.");
             if (!vehicleClassChoice.HasValue)
             {
-                Console.WriteLine("Can't park, no vehicle types found.");
+                _textToDraw.Add("Can't park, no vehicle types found.");
                 return;
             }
             Type type = VehicleClasses[(int)vehicleClassChoice];
@@ -235,7 +248,7 @@ namespace Garage.Garage
             int? garageChoice = _ui.GetChoiceInput("Available garages. Make your desired choice:", _garages.Select(t => t.Name).ToList(), "No garages to choose.");
             if (!garageChoice.HasValue)
             {
-                Console.WriteLine("No garages found.");
+                _textToDraw.Add("No garages found.");
                 return;
             }
             _garage = _garages[(int)garageChoice];
@@ -244,6 +257,44 @@ namespace Garage.Garage
         private void Exit()
         {
             _appRunning = false;
+        }
+
+        private void PopulateMockGarage()
+        {
+            var mockVehicles = new List<Vehicle>()
+            {
+                new Car("Toyota", "Corolla", "Blue", 4, 1.8f, Enumerators.VehicleEnums.FuelType.Gasoline, "REG-001", new Dimensions(4.5,1.8,1.4), 4),
+                new Motorcycle("Yamaha", "MT-07", "Black", 2, 0.689f, Enumerators.VehicleEnums.FuelType.Gasoline, "REG-002", new Dimensions(2.1,0.8,1.1), 690),
+                new Bus("Volvo", "7700", "White", 6, 5.0f, Enumerators.VehicleEnums.FuelType.Diesel, "REG-003", new Dimensions(12.0,2.5,3.2), 50),
+                new Airplane("Cessna", "172", "White", 3, 180.0f, Enumerators.VehicleEnums.FuelType.Diesel, "REG-004", new Dimensions(8.28,11.0,2.7), 11.0),
+                new Boat("Bayliner", "Element", "White", 0, 1.2f, Enumerators.VehicleEnums.FuelType.Gasoline, "REG-005", new Dimensions(6.5,2.5,2.5), Boat.MaterialTypes.Fiberglass),
+                new Car("Honda", "Civic", "Red", 4, 2.0f, Enumerators.VehicleEnums.FuelType.Gasoline, "REG-006", new Dimensions(4.6,1.8,1.4), 4),
+                new Motorcycle("Ducati", "Monster", "Red", 2, 1.26f, Enumerators.VehicleEnums.FuelType.Gasoline, "REG-007", new Dimensions(2.15,0.9,1.1), 1200),
+                new Bus("Mercedes", "Citaro", "Yellow", 6, 6.0f, Enumerators.VehicleEnums.FuelType.Diesel, "REG-008", new Dimensions(10.5,2.5,3.0), 40),
+                new Car("Tesla", "Model 3", "White", 4, 0.0f, Enumerators.VehicleEnums.FuelType.Electric, "REG-009", new Dimensions(4.7,1.85,1.44), 4),
+                new Boat("Sea Ray", "SPX190", "Blue", 0, 1.0f, Enumerators.VehicleEnums.FuelType.Gasoline, "REG-010", new Dimensions(5.6,2.2,1.6), Boat.MaterialTypes.Aluminum)
+            };
+
+            int parkedCount = 0;
+            foreach (var vehicle in mockVehicles)
+            {
+                var freeSpots = _garage.GetFreeSpots(vehicle.vehicleData.Dimensions);
+                if (freeSpots.Count > 0)
+                {
+                    var spot = freeSpots.First();
+                    if (_garage.ParkVehicle(spot, vehicle))
+                    {
+                        _textToDraw.Add($"[Mock] Parked {vehicle.vehicleData.Make} {vehicle.vehicleData.Model} ({vehicle.GetType().Name}) at spot {spot.SpotNumber}");
+                        parkedCount++;
+                    }
+                }
+                else
+                {
+                    _textToDraw.Add($"[Mock] No fitting spot for {vehicle.vehicleData.Make} {vehicle.vehicleData.Model} ({vehicle.GetType().Name})");
+                }
+            }
+
+            _ui.ShowMessage($"PopulateMockGarage: attempted {mockVehicles.Count} vehicles, parked {parkedCount}.");
         }
     }
 }
