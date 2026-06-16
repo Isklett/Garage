@@ -329,8 +329,8 @@ namespace Garage.UI
                             Console.WriteLine();
 
                             return new SearchParameters.VehicleSearch(
-                                answers[0], answers[1], answers[2], answers[3],
-                                answers[4], answers[5]);
+                                answers[0], answers[1], answers[2], answers[3], answers[4],
+                                answers[5], answers[6]);
                         }
                         else
                         {

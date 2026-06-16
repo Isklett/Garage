@@ -1,5 +1,6 @@
 ﻿using Garage.Interfaces;
 using Garage.ValueTypes;
+using System.Runtime.CompilerServices;
 
 namespace Garage.Vehicles
 {
@@ -8,6 +9,7 @@ namespace Garage.Vehicles
 
         public readonly record struct VehicleData
             (
+            string VehicleType,
             string RegNr,
             string Make,
             string Model,
@@ -22,9 +24,9 @@ namespace Garage.Vehicles
 
         public DateTime ArrivalTime { get; set; }
 
-        public Vehicle(string make, string model, string color, int numberOfWheels, float engineSize, FuelType typeOfFuel, string registrationNumber, Dimensions dimensions)
+        public Vehicle(string vehicleType, string make, string model, string color, int numberOfWheels, float engineSize, FuelType typeOfFuel, string registrationNumber, Dimensions dimensions)
         {
-            vehicleData = new VehicleData(registrationNumber, make, model, color, numberOfWheels, engineSize, typeOfFuel, dimensions);
+            vehicleData = new VehicleData(vehicleType, registrationNumber, make, model, color, numberOfWheels, engineSize, typeOfFuel, dimensions);
         }
 
         public bool ParkVehicle()
@@ -33,7 +35,7 @@ namespace Garage.Vehicles
             return true;
         }
 
-        protected static VehicleData CreateVehicleData(IConsoleUI ui)
+        protected static VehicleData CreateVehicleData<T>(IConsoleUI ui)
         {
             string regNr = ui.GetStringInput("Enter registration number:");
             string make = ui.GetStringInput("Enter make:");
@@ -47,7 +49,7 @@ namespace Garage.Vehicles
             double width = ui.GetDoubleInput("Enter width:");
             double height = ui.GetDoubleInput("Enter height:");
 
-            return new VehicleData(regNr, make, model, color, nrOfWheels, engineSize, typeOfFuel, new Dimensions(length, width, height));
+            return new VehicleData(typeof(T).Name, regNr, make, model, color, nrOfWheels, engineSize, typeOfFuel, new Dimensions(length, width, height));
         }
     }
 }

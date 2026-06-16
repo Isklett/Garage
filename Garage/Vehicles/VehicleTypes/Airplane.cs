@@ -7,14 +7,14 @@ namespace Garage.Vehicles.VehicleTypes
     {
         public double Wingspan { get; init; }
 
-        public Airplane(string make, string model, string color, int numberOfWheels, float engineSize, FuelType typeOfFuel, string registrationNumber, Dimensions dimensions, double wingspan) : base(make, model, color, numberOfWheels, engineSize, typeOfFuel, registrationNumber, dimensions)
+        public Airplane(string make, string model, string color, int numberOfWheels, float engineSize, FuelType typeOfFuel, string registrationNumber, Dimensions dimensions, double wingspan) : base("Airplane", make, model, color, numberOfWheels, engineSize, typeOfFuel, registrationNumber, dimensions)
         {
             Wingspan = wingspan;
         }
 
         public static Airplane Create(IConsoleUI ui)
         {
-            var data = CreateVehicleData(ui);
+            var data = CreateVehicleData<Airplane>(ui);
 
             double wingspan = ui.GetDoubleInput("Enter wingspan in meters:");
 

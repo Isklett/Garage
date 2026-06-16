@@ -7,14 +7,14 @@ namespace Garage.Vehicles.VehicleTypes
     {
         public int EngineDisplacement { get; init; } //cc
 
-        public Motorcycle(string make, string model, string color, int numberOfWheels, float engineSize, FuelType typeOfFuel, string registrationNumber, Dimensions dimensions, int engineDisplacement) : base(make, model, color, numberOfWheels, engineSize, typeOfFuel, registrationNumber, dimensions)
+        public Motorcycle(string make, string model, string color, int numberOfWheels, float engineSize, FuelType typeOfFuel, string registrationNumber, Dimensions dimensions, int engineDisplacement) : base("Motorcycle", make, model, color, numberOfWheels, engineSize, typeOfFuel, registrationNumber, dimensions)
         {
             EngineDisplacement = engineDisplacement;
         }
 
         public static Motorcycle Create(IConsoleUI ui)
         {
-            var data = CreateVehicleData(ui);
+            var data = CreateVehicleData<Motorcycle>(ui);
 
             int engineDisplacement = ui.GetIntInput("Enter engine displacement in cc:");
 

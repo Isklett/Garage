@@ -24,7 +24,7 @@ namespace Garage.Garage
         MenuState _currentMenuState = MenuState.MainMenu;
         private readonly Dictionary<MenuState, string[]> _menuOptions;
 
-        private readonly string[] _searchParameters = { "RegNr", "Make", "Model", "Color", "Number Of Wheels", "Fuel Type" }; 
+        private readonly string[] _searchParameters = { "VehicleType", "RegNr", "Make", "Model", "Color", "Number Of Wheels", "Fuel Type" }; 
 
         private List<string> _textToDraw = new List<string>();
 
@@ -137,18 +137,19 @@ namespace Garage.Garage
         {
             _ui.ClearScreen(1);
             SearchParameters.VehicleSearch searchParams = _ui.GetMultipleLines(_searchParameters, "Search");
-            IEnumerable<ParkingSpot<Vehicle>> parkingSpots = _garage.SearchVehicles(searchParams.RegNr, searchParams.Make, searchParams.Model, searchParams.Color, searchParams.NrOfWheels, searchParams.FuelType);
+            IEnumerable<ParkingSpot<Vehicle>> parkingSpots = _garage.SearchVehicles(searchParams.VehicleType, searchParams.RegNr, searchParams.Make, searchParams.Model, searchParams.Color, searchParams.NrOfWheels, searchParams.FuelType);
             foreach (ParkingSpot<Vehicle> parkingSpot in parkingSpots)
             {
                 if(parkingSpot.ParkedVehicle != null)
                 {
+                    string vehicleType = parkingSpot.ParkedVehicle.vehicleData.RegNr.ToString();
                     string regNr = parkingSpot.ParkedVehicle.vehicleData.RegNr.ToString();
                     string make = parkingSpot.ParkedVehicle.vehicleData.Make.ToString();
                     string model = parkingSpot.ParkedVehicle.vehicleData.Model.ToString();
                     string color = parkingSpot.ParkedVehicle.vehicleData.Color.ToString();
                     string nrOfWheels = parkingSpot.ParkedVehicle.vehicleData.NrOfWheels.ToString();
                     string fuelType = parkingSpot.ParkedVehicle.vehicleData.FuelType.ToString();
-                    _textToDraw.Add($"Parking spot {parkingSpot.SpotNumber}: {regNr} - {make} - {model} - {color} paint - {nrOfWheels} wheels - {fuelType}");
+                    _textToDraw.Add($"Parking spot {parkingSpot.SpotNumber}: {vehicleType} - {regNr} - {make} - {model} - {color} paint - {nrOfWheels} wheels - {fuelType}");
                 }
             }
         }

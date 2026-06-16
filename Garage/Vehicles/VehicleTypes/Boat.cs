@@ -15,16 +15,16 @@ namespace Garage.Vehicles.VehicleTypes
 
         public MaterialTypes HullMaterial { get; init; }
 
-        public Boat(string make, string model, string color, int numberOfWheels, float engineSize, FuelType typeOfFuel, string registrationNumber, Dimensions dimensions, MaterialTypes hullMaterial) : base(make, model, color, numberOfWheels, engineSize, typeOfFuel, registrationNumber, dimensions)
+        public Boat(string make, string model, string color, int numberOfWheels, float engineSize, FuelType typeOfFuel, string registrationNumber, Dimensions dimensions, MaterialTypes hullMaterial) : base("Boat", make, model, color, numberOfWheels, engineSize, typeOfFuel, registrationNumber, dimensions)
         {
             HullMaterial = hullMaterial;
         }
 
         public static Boat Create(IConsoleUI ui)
         {
-            var data = CreateVehicleData(ui);
+            var data = CreateVehicleData<Boat>(ui);
 
-            MaterialTypes material = (MaterialTypes)ui.GetChoiceInput("Available materials. Make your desired choice:", Enum.GetNames(typeof(MaterialTypes)), "No material types to choose from.");
+            MaterialTypes material = (MaterialTypes)(ui.GetChoiceInput("Available materials. Make your desired choice:", Enum.GetNames(typeof(MaterialTypes)), "No material types to choose from.") ?? 0);
 
             return new Boat(
                 data.Make,

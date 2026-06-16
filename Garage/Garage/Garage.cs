@@ -83,16 +83,17 @@ namespace Garage.Garage
             return false;
         }
 
-        public IEnumerable<T> SearchVehicles(string? registrationNumber, string? make, string? model, string? color, string? nrOfWheels, string? fuelType)
+        public IEnumerable<T> SearchVehicles(string? vehicleType, string? registrationNumber, string? make, string? model, string? color, string? nrOfWheels, string? fuelType)
         {
             int.TryParse(nrOfWheels, out int wheels);
             int.TryParse(fuelType, out int fuel);
             var list = _spots.Where
                     (spot => spot.IsOccupied && spot.ParkedVehicle != null &&
-                    (string.IsNullOrWhiteSpace(registrationNumber) || spot.ParkedVehicle.vehicleData.RegNr == registrationNumber) &&
-                    (string.IsNullOrWhiteSpace(make) || spot.ParkedVehicle.vehicleData.Make == make) &&
-                    (string.IsNullOrWhiteSpace(model) || spot.ParkedVehicle.vehicleData.Model == model) &&
-                    (string.IsNullOrWhiteSpace(color) || spot.ParkedVehicle.vehicleData.Color == color) &&
+                    (string.IsNullOrWhiteSpace(vehicleType) || spot.ParkedVehicle.vehicleData.VehicleType.ToUpper() == vehicleType.ToUpper()) &&
+                    (string.IsNullOrWhiteSpace(registrationNumber) || spot.ParkedVehicle.vehicleData.RegNr.ToUpper() == registrationNumber.ToUpper()) &&
+                    (string.IsNullOrWhiteSpace(make) || spot.ParkedVehicle.vehicleData.Make.ToUpper() == make.ToUpper()) &&
+                    (string.IsNullOrWhiteSpace(model) || spot.ParkedVehicle.vehicleData.Model.ToUpper() == model.ToUpper()) &&
+                    (string.IsNullOrWhiteSpace(color) || spot.ParkedVehicle.vehicleData.Color.ToUpper() == color.ToUpper()) &&
                     (string.IsNullOrWhiteSpace(nrOfWheels) || spot.ParkedVehicle.vehicleData.NrOfWheels == wheels) &&
                     (string.IsNullOrWhiteSpace(fuelType) || spot.ParkedVehicle.vehicleData.FuelType == (FuelType)fuel)
                     );

@@ -6,6 +6,7 @@ namespace Garage.ValueTypes
 
         public record struct VehicleSearch
             (
+            string VehicleType,
             string RegNr,
             string Make,
             string Model,
