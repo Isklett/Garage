@@ -2,13 +2,11 @@
 using Garage.ValueTypes;
 using Garage.Vehicles;
 using System.Collections;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using static Garage.ValueTypes.Enumerators.VehicleEnums;
 
 namespace Garage.Garage
 {
-    internal class Garage<T> : ILimitedList<T> where T : ParkingSpot<Vehicle>
+    internal sealed class Garage<T> : ILimitedList<T> where T : ParkingSpot<Vehicle>
     {
         private List<T> _spots;
         private string _name;
@@ -18,7 +16,18 @@ namespace Garage.Garage
         public int Count => _spots.Count;
         public string Name => _name;
 
-        public bool IsFull => _capacity <= Count;
+        public bool IsFull
+        {
+            get 
+            {
+                foreach (var item in _spots)
+                {
+                    if(!item.IsOccupied)
+                        return false;
+                }
+                return true;
+            }
+        }
 
         public T this[int index] => _spots[index];
 
@@ -100,16 +109,14 @@ namespace Garage.Garage
             return list;
         }
 
-        public bool ParkVehicle(T parkingSpot, Vehicle vehicle)
+        public bool ParkVehicle(T parkingSpot, Vehicle vehicle, out string message)
         {
-            if (parkingSpot.ParkVehicle(vehicle))
+            if (parkingSpot.ParkVehicle(vehicle, out message))
             {
-                _ui.ShowMessage($"Vehicle {vehicle.vehicleData.Make} {vehicle.vehicleData.Model} parked in spot {parkingSpot.SpotNumber}.");
                 return true;
             }
             else
             {
-                _ui.ShowError($"Failed to park vehicle {vehicle.vehicleData.Make} {vehicle.vehicleData.Model} in spot {parkingSpot.SpotNumber}.");
                 return false;
             }
         }

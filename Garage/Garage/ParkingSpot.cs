@@ -20,28 +20,32 @@ namespace Garage.Garage
             SpotNumber = spotNumber;
         }
 
-        public bool ParkVehicle(T vehicle)
+        public bool ParkVehicle(T vehicle, out string message)
         {
             if(vehicle is IParkable)
             {
                 if (ParkedVehicle != null)
                 {
-                    Console.WriteLine($"Parking spot {SpotNumber} is already occupied by {ParkedVehicle.vehicleData.Make} {ParkedVehicle.vehicleData.Model}.");
+                    message = $"Parking spot {SpotNumber} is already occupied by {ParkedVehicle.vehicleData.VehicleType} - {ParkedVehicle.vehicleData.Make} {ParkedVehicle.vehicleData.Model}.";
                     return false;
                 }
                 else if (vehicle.vehicleData.Dimensions.Length > ParkingSize.Length || vehicle.vehicleData.Dimensions.Width > ParkingSize.Width || vehicle.vehicleData.Dimensions.Height > ParkingSize.Height)
                 {
-                    Console.WriteLine($"Vehicle {vehicle.vehicleData.Make} {vehicle.vehicleData.Model} does not fit in parking spot {SpotNumber}.");
+                    message = $"{vehicle.vehicleData.VehicleType} - {vehicle.vehicleData.Make} {vehicle.vehicleData.Model} does not fit in parking spot {SpotNumber}.";
                     return false;
+                }
+                else
+                {
+                    ParkedVehicle = vehicle;
+                    message = $"{vehicle.vehicleData.VehicleType} - {vehicle.vehicleData.Make} {vehicle.vehicleData.Model} has been parked in parking spot {SpotNumber}.";
+                    return true;
                 }
             }
             else
             {
-                Console.WriteLine("Vehicle does not implement IParkable interface and cannot be parked.");
+                message = "Vehicle does not implement IParkable interface and cannot be parked.";
+                return false;
             }
-
-            ParkedVehicle = vehicle;
-            return true;
         }
 
         public bool RemoveVehicle()

@@ -173,12 +173,12 @@ namespace Garage.Garage
                 bool succeeded = _garage.RemoveVehicle(parkingSpot);
                 if (succeeded)
                 {
-                    _ui.ShowMessage($"Vehicle with registration number {vehicleRegNr} removed from parking spot {parkingSpot.SpotNumber}.");
+                    _textToDraw.Add($"Vehicle with registration number {vehicleRegNr} removed from parking spot {parkingSpot.SpotNumber}.");
 
                 }
                 else
                 {
-                    _ui.ShowMessage($"Failed to remove vehicle with registration number {vehicleRegNr} from parking spot {parkingSpot.SpotNumber}.");
+                    _textToDraw.Add($"Failed to remove vehicle with registration number {vehicleRegNr} from parking spot {parkingSpot.SpotNumber}.");
                 }
             }
         }
@@ -225,9 +225,9 @@ namespace Garage.Garage
             if(spotNr.HasValue)
             {
                 ParkingSpot<Vehicle> spot = _garage[(int)spotNr];
-                _garage.ParkVehicle(spot, vehicleToPark);
+                bool parked = _garage.ParkVehicle(spot, vehicleToPark, out string message);
+                _textToDraw.Add(message);
             }
-            
         }
 
         private void AddGarage()
@@ -236,6 +236,7 @@ namespace Garage.Garage
             int capacity = _ui.GetIntInput("Enter garage capacity:");
             _garage = new Garage<ParkingSpot<Vehicle>>(name, capacity, new Dimensions(5, 2.5, 10), _ui);
             _garages.Add(_garage);
+            _textToDraw.Add($"Added {_garage.Name}.");
         }
         private void ChooseGarage()
         {
@@ -334,11 +335,11 @@ namespace Garage.Garage
                 if (freeSpots.Count > 0)
                 {
                     var spot = freeSpots.First();
-                    if (garage.ParkVehicle(spot, vehicle))
+                    if (garage.ParkVehicle(spot, vehicle, out string message))
                     {
-                        //_textToDraw.Add($"[Mock] Parked {vehicle.vehicleData.Make} {vehicle.vehicleData.Model} ({vehicle.GetType().Name}) at spot {spot.SpotNumber}");
                         parkedCount++;
                     }
+                    //_textToDraw.Add(message);
                 }
                 else
                 {
