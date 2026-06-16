@@ -361,6 +361,13 @@ namespace Garage.UI
             }
         }
 
+        public void ClearAll()
+        {
+            Console.Clear();
+            Console.Write("\x1b[3J"); // clear scrollback buffer (ANSI escape)
+            Console.SetCursorPosition(0, 0);
+        }
+
         public void ClearScreen(int fromRow = 1)
         {
             try
@@ -401,7 +408,7 @@ namespace Garage.UI
 
         public void Draw(string[]? options, List<string> table)
         {
-            ClearScreen(0);
+            ClearAll();
             if (options != null)
             {
                 foreach (string s in options)

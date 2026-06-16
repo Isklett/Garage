@@ -8,7 +8,7 @@ namespace Garage.Vehicles.VehicleTypes
         public enum MaterialTypes
         {
             Fiberglass,
-            Aluminum,
+            Aluminium,
             Wood,
             Steel
         }
