@@ -12,9 +12,9 @@ namespace Garage.Vehicles.VehicleTypes
             Wingspan = wingspan;
         }
 
-        public static Airplane Create(IConsoleUI ui)
+        public static Airplane Create(IConsoleUI ui, List<string> parkedRegNrs)
         {
-            var data = CreateVehicleData<Airplane>(ui);
+            var data = CreateVehicleData<Airplane>(ui, parkedRegNrs);
 
             double wingspan = ui.GetDoubleInput("Enter wingspan in meters:");
 

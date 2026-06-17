@@ -11,9 +11,9 @@ namespace Garage.Vehicles.VehicleTypes
             PassengerCapacity = passengerCapacity;
         }
 
-        public static Bus Create(IConsoleUI ui)
+        public static Bus Create(IConsoleUI ui, List<string> parkedRegNrs)
         {
-            var data = CreateVehicleData<Bus>(ui);
+            var data = CreateVehicleData<Bus>(ui, parkedRegNrs);
 
             int passengerCapacity = ui.GetIntInput("Enter passenger capacity:");
 

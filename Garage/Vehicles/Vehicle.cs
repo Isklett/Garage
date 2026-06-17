@@ -35,9 +35,13 @@ namespace Garage.Vehicles
             return true;
         }
 
-        protected static VehicleData CreateVehicleData<T>(IConsoleUI ui)
+        protected static VehicleData CreateVehicleData<T>(IConsoleUI ui, List<string> parkedRegNrs)
         {
             string regNr = ui.GetStringInput("Enter registration number:");
+            while (parkedRegNrs.Contains(regNr))
+            {
+                regNr = ui.GetStringInput($"{regNr} is already parked in this garage. Enter registration number:");
+            }
             string make = ui.GetStringInput("Enter make:");
             string model = ui.GetStringInput("Enter model:");
             string color = ui.GetStringInput("Enter color:");

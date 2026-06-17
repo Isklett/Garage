@@ -38,7 +38,6 @@ namespace Garage.Garage
             _garages.Add(gar);
             _garage = _garages[0];
 
-            PopulateMockGarage(_garage);
 
             _mainMenu = new Dictionary<ConsoleKey, Action>()
             { 
@@ -58,6 +57,7 @@ namespace Garage.Garage
                 { ConsoleKey.D2, StartRemoveVehicle},
                 { ConsoleKey.D3, ListParkedVehicles},
                 { ConsoleKey.D4, StartFindVehicle },
+                { ConsoleKey.D5, () => PopulateMockGarage(_garage) },
                 { ConsoleKey.Escape, () => GoToMenu(MenuState.MainMenu) },
             };
 
@@ -67,7 +67,7 @@ namespace Garage.Garage
             {
                 { MenuState.MainMenu, new string[] { "1. Add Garage", "2. Choose Garage", "0. Exit" }},
                 { MenuState.Custom, new string[] { " Escape. Main Menu" } },
-                { MenuState.GarageMenu, new string[] { "1. Park Vehicle", "2. Remove Vehicle", "3. List Parked Vehicles", "4. Find vehicle", "Escape. Main menu" }}
+                { MenuState.GarageMenu, new string[] { "1. Park Vehicle", "2. Remove Vehicle", "3. List Parked Vehicles", "4. Find vehicle", "5. Mock garage", "Escape. Main menu" }}
             };
 
             VehicleClasses = typeof(Vehicle)
@@ -194,26 +194,33 @@ namespace Garage.Garage
             }
             Type type = VehicleClasses[(int)vehicleClassChoice];
             Vehicle vehicleToPark = null!;
+            List<string> parkedRegNrs = new List<string>();
+            foreach(var item in _garage)
+            {
+                if(item.ParkedVehicle != null)
+                    parkedRegNrs.Add(item.ParkedVehicle.vehicleData.RegNr);
+            }
+
             switch (type)
             {
                 case Type t when t == typeof(Car):
-                    Car car = Car.Create(_ui);
+                    Car car = Car.Create(_ui, parkedRegNrs);
                     vehicleToPark = car;
                     break;
                 case Type t when t == typeof(Motorcycle):
-                    Motorcycle motorcycle = Motorcycle.Create(_ui);
+                    Motorcycle motorcycle = Motorcycle.Create(_ui, parkedRegNrs);
                     vehicleToPark = motorcycle;
                     break;
                 case Type t when t == typeof(Bus):
-                    Bus bus = Bus.Create(_ui);
+                    Bus bus = Bus.Create(_ui, parkedRegNrs);
                     vehicleToPark = bus;
                     break;
                 case Type t when t == typeof(Airplane):
-                    Airplane aiplane = Airplane.Create(_ui);
+                    Airplane aiplane = Airplane.Create(_ui, parkedRegNrs);
                     vehicleToPark = aiplane;
                     break;
                 case Type t when t == typeof(Boat):
-                    Boat boat = Boat.Create(_ui);
+                    Boat boat = Boat.Create(_ui, parkedRegNrs);
                     vehicleToPark = boat;
                     break;
                 default:
@@ -233,7 +240,15 @@ namespace Garage.Garage
         private void AddGarage()
         {
             string name = _ui.GetStringInput("Enter new garage name:");
+            while (string.IsNullOrEmpty(name))
+            {
+                name = _ui.GetStringInput("Garage needs a name. Enter new garage name:");
+            }
             int capacity = _ui.GetIntInput("Enter garage capacity:");
+            while(capacity <= 0)
+            {
+                capacity = _ui.GetIntInput($"Garage capacity can't be {capacity}. Enter garage capacity:");
+            }
             _garage = new Garage<ParkingSpot<Vehicle>>(name, capacity, new Dimensions(5, 2.5, 10), _ui);
             _garages.Add(_garage);
             _textToDraw.Add($"Added {_garage.Name}.");
@@ -339,11 +354,11 @@ namespace Garage.Garage
                     {
                         parkedCount++;
                     }
-                    //_textToDraw.Add(message);
+                    _textToDraw.Add(message);
                 }
                 else
                 {
-                    //_textToDraw.Add($"[Mock] No fitting spot for {vehicle.vehicleData.Make} {vehicle.vehicleData.Model} ({vehicle.GetType().Name})");
+                    _textToDraw.Add($"[Mock] No fitting spot for {vehicle.vehicleData.Make} {vehicle.vehicleData.Model} ({vehicle.GetType().Name})");
                 }
             }
 

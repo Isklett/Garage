@@ -11,9 +11,9 @@ namespace Garage.Vehicles.VehicleTypes
             NumberOfDoors = numberOfDoors;
         }
 
-        public static Car Create(IConsoleUI ui)
+        public static Car Create(IConsoleUI ui, List<string> parkedRegNrs)
         {
-            var data = CreateVehicleData<Car>(ui);
+            var data = CreateVehicleData<Car>(ui, parkedRegNrs);
 
             int numberOfDoors = ui.GetIntInput("Enter number of doors:");
 

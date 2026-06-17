@@ -135,15 +135,5 @@ namespace Garage.Garage
                 return false;
             }
         }
-
-        public bool Add(T item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Remove(T item)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

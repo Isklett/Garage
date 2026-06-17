@@ -12,9 +12,9 @@ namespace Garage.Vehicles.VehicleTypes
             EngineDisplacement = engineDisplacement;
         }
 
-        public static Motorcycle Create(IConsoleUI ui)
+        public static Motorcycle Create(IConsoleUI ui, List<string> parkedRegNrs)
         {
-            var data = CreateVehicleData<Motorcycle>(ui);
+            var data = CreateVehicleData<Motorcycle>(ui, parkedRegNrs);
 
             int engineDisplacement = ui.GetIntInput("Enter engine displacement in cc:");
 

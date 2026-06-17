@@ -20,9 +20,9 @@ namespace Garage.Vehicles.VehicleTypes
             HullMaterial = hullMaterial;
         }
 
-        public static Boat Create(IConsoleUI ui)
+        public static Boat Create(IConsoleUI ui, List<string> parkedRegNrs)
         {
-            var data = CreateVehicleData<Boat>(ui);
+            var data = CreateVehicleData<Boat>(ui, parkedRegNrs);
 
             MaterialTypes material = (MaterialTypes)(ui.GetChoiceInput("Available materials. Make your desired choice:", Enum.GetNames(typeof(MaterialTypes)), "No material types to choose from.") ?? 0);
 
